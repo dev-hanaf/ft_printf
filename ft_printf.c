@@ -6,7 +6,7 @@
 /*   By: ahanaf <ahanaf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 01:55:05 by ahanaf            #+#    #+#             */
-/*   Updated: 2023/12/06 08:50:09 by ahanaf           ###   ########.fr       */
+/*   Updated: 2023/12/09 01:17:09 by ahanaf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,21 +71,61 @@ static int ft_printf_hexa(int n, char fomrat)
     return (lenght);
 }
 
-static int ft_print_dot(int num)
+static int ft_print_dot(int num, int hashtag)
 {
   
     int len = 0;
-    num = num -2;
+ //printf("%d\n",num);
+    if (hashtag < 0)
+        hashtag = -hashtag;
+
+    int num2 =  num  - hashtag  ;
+    //printf("%d\n",hashtag);
+    //printf("%d\n",num);
+    num = num -num2;
     while(num-- > 0)
+    
     {
         len += ft_putchar_fd('0',1);
     }
     return (len);
 } 
-static ft_print_address()
+/*static ft_print_address()
 {
     
-}
+}*/
+// static char *parser(const char *str)
+// {
+//     size_t i = 0;
+//     char *format;
+//     char *s = "csdixXpu%.+-#0 ";
+//     int index = 0;
+//     printf("hello\n");
+//     while (str[i])
+//     {
+//         if(str[i] == '%')
+//         {
+//             format[index] = "h";
+//                         format[index + 1] = "h";
+
+//             // i++;
+//             // int j = 0;
+//             // while(s[j])
+//             // {
+//             //     if (str[i] == s[j])
+//             //     {
+//             //             printf("hello222222222222222222222\n");
+
+//             //         format[index] = str[i];
+//             //         index++;   
+//             //     }
+//             //     j++;
+//             // }
+//         }
+//         i++;
+//     }
+//     return (format);
+// }
 int ft_printf(const char *str, ...)
 {
     va_list ap;
@@ -94,62 +134,96 @@ int ft_printf(const char *str, ...)
     
     int print_lenght;
     int i;
-
+    int hashtag = 0;
     i = 0;
     print_lenght = 0;
+
     while (str[i])
     {
         if (str[i] == '%')
         {
             i++;
-            while (str[i] && ft_strchr("cspdiuxX.*-+0123456789#%", str[i]))
+            while(str[i])
             {
-                if (str[i] == '#')
+                if(str[i] == 'd')
                 {
-                    // need to fixe it
-                    print_lenght += ft_hashtag(ft_strchr(str, 'x'), ft_strchr(str, 'X'));       
-
+                    print_lenght += ft_putnbr_fd(va_arg(ap, int), 1);
                 }
-                else if (str[i] == '.')
+                else if (str[i] == '+')
                 {
-                    i++;
-                    int precision = 0;
-                    while (ft_isdigit(str[i]))
+                    int number = va_arg(ap, int);
+                    if (number >= 0)
                     {
-                        precision = (precision * 10);
-                        precision = precision + (str[i] - '0');
-
-                        i++;
+                        ft_putchar_fd('+', 1);
+                        print_lenght += ft_putnbr_fd(number, 1) + 1;
                     }
-                    print_lenght += ft_print_dot(precision);
-                    i--; 
                 }
-                else if (str[i] == 'x' || str[i] == 'X')
-                    print_lenght += ft_printf_hexa(va_arg(ap, unsigned int),str[i]);
-                else if (str[i] == 'd' || str[i] == 'i')
-                    print_lenght += ft_putnbr_fd(va_arg(ap, int),1);
-                else if (str[i] == 'c')
-                    print_lenght += ft_putchar_fd(va_arg(ap, int),1);
-                else if (str[i] == 's')
-                    print_lenght += ft_putstr_fd(va_arg(ap, char *),1);
-                else if (str[i] == 'p')
+                i++;
+            }
+        }
+        //char *formats = parser(str);
+        //if (str[i] == '%')
+        //{
+          //  i++;
+            //while (str[i] && ft_strchr("cspdiuxX.*-+0123456789#%", str[i]))
+            //{
+                // if (str[i] == '#')
+                // {
+                //     // need to fixe it
+                //     print_lenght += ft_hashtag(ft_strchr(str, 'x'), ft_strchr(str, 'X'));
+                // }
+                // else if (str[i] == '.')
+                // {
+                //     i++;
+                //     int precision = 0;
+                //     while (ft_isdigit(str[i]))
+                //     {
+                //         precision = (precision * 10);
+                //         precision = precision + (str[i] - '0');
+
+                //         i++;
+                //     }
+                //     print_lenght += ft_print_dot(precision,print_lenght);
+                //     i--; 
+                // }
+                // else if (str[i] == '+')
+                // {
+                //     int number = va_arg(ap, int);
+                //     if (number >= 0)
+                //     {
+                //         ft_putchar_fd('+', 1);
+                //         print_lenght += ft_putnbr_fd(number, 1) + 1;
+                //     }
+                //     else
+                //       //         i++;          
+        //     }
+        // }
+        // if(str[i] == '\n')
+        //    print_lenght += write(1, "\n", 1);
+        //        if (number >= 0)
+                    // {
+                    //     ft_putchar_fd('+', 1);
+                    //     print_lenght += ft_putnbr_fd(number, 1) + 1;
+                    // }          //print_lenght += ft_putchar_fd(va_arg(ap, int),1);
+                //else if (str[i] == 's')
+                  //  print_lenght += ft_putstr_fd(va_arg(ap, char *),1);
+                /*else if (str[i] == 'p')
                 {
                     void *ptr = va_arg(ap, void *);
                     if (ptr)
                         print_lenght += ft_print_address(ptr);
                     print_lenght += ft_putstr_fd("0x0", 1);
-                }
-                else if (str[i] == '%')
-                    print_lenght += ft_putchar_fd('%', 1);
-                i++;
-                
-            }
-        }
-        if(str[i] == '\n')
-            print_lenght += write(1, "\n", 1);
-        else
-            print_lenght += write(1, &str[i], 1);
-        i++;    
+                }*/
+                //else if (str[i] == '%')
+                  //  print_lenght += ft_putchar_fd('%', 1);
+        //         i++;          
+        //     }
+        // }
+        // if(str[i] == '\n')
+        //    print_lenght += write(1, "\n", 1);
+        // else
+        //    print_lenght += write(1, &str[i], 1);
+        // i++;    
     }
     va_end(ap);
     return (print_lenght);
@@ -160,15 +234,17 @@ int main ()
 {
     int n;
     
-    //n += ft_printf("%#.10x",100);
-    //printf("\nn = %d\n",n);
-    n= 0;
-    char x;
-    n += ft_printf(":%s %c %d %X %X %p:\n","hello world",'c',100,5000,100,&x);
-    printf("%d\n",n);
-    n= 0;
-    n += printf(":%s %c %d %X %X %p:\n","hello world",'c', 100,5000,100,&x);
-    printf("%d\n",n);
+    n = 0;
+    
+    ft_printf("dyali =>%+d",100);
+    //puts("\n");
+    //printf("dyalo =>%+d",100);
+    //char x;
+    // n += ft_printf(":%s %c %d %X %X %p:\n","hello world",'c',100,5000,100,&x);
+    // printf("%d\n",n);
+    // n= 0;
+    // n += printf(":%s %c %d %X %X %p:\n","hello world",'c', 100,5000,100,&x);
+    // printf("%d\n",n);
     
 
     // n = 0;

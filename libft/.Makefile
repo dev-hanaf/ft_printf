@@ -46,6 +46,11 @@ clean: header
 
 fclean:  clean
 	@rm -f $(NAME)
+	@echo "$(GREEN)"
+	@echo "┓┏┏┓┳┳┓┏┓┏┓"
+	@echo "┣┫┣┫┃┃┃┏┛┣┫"
+	@echo "┛┗┛┗┛ ┗┗┛┛┗"
+           
 
 re :fclean all 
 
