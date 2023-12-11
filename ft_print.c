@@ -1,4 +1,16 @@
-#include "header/libftprintf.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_print.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahanaf <ahanaf@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/10 09:49:27 by ahanaf            #+#    #+#             */
+/*   Updated: 2023/12/11 09:09:09 by ahanaf           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "header/printf.h"
 #include "libft/libft.h"
 
 static int ft_hashtag(char *check_x,char *check_X)
@@ -24,15 +36,6 @@ static int ft_printf_char(int c)
     lenght = 0;
     lenght =  write (1, &c, 1);
     return (lenght);
-}
-
-static int cheack_flags(char str)
-{
-    if (str == '-'  || str == '+' || str == '-' || str == '#' || str == '.' || str == ' ' ||
-        str == 'i' || str == 'd' || str == 's' || str == 'c' || str == 'x' || str == 'X' ||
-        str == 'p' || str == 'u' ||ft_isdigit(str))
-        return 1;
-    return 0;
 }
 
 static int ft_printf_hexa(int n, char fomrat)
@@ -77,111 +80,162 @@ static int ft_print_dot(int num, int hashtag)
     num = num -num2;
     while(num-- > 0)
     
-    {
+    { ptr = ft_split_foramts(str);
         len += ft_putchar_fd('0',1);
     }
     return (len);
 } 
 
-static int check_flags2(char c)
+
+
+
+// char *set_word(const char *str, char *sep)
+// {
+//     char *word;
+//     int i =0;
+//     int count_words = count_words(str);
+//     int lenght_array[count_words];
+//     while (str[i])
+//     {
+//         if (str[i] == '%')
+//         {
+
+//         }
+//     }
+//     word = ft_calloc(sizeof(char),);
+//     if (!word)
+//         return (NULL);
+// }
+// static void lenght_word(const char *str, int *start, int *end, int *i)
+// {
+//     int 
+//     while(str[i])
+//     {
+
+//     }
+// }
+
+// static char **split(const char *str)
+// {
+//     char **res;
+//     int start = 0;
+//     int end = 0;
+//     int i  = 0;
+//     int wc = count_words(str);
+//     res = ft_calloc(sizeof(char *), wc + 1);
+//     if (!res)
+//         return (NULL);HEXA
+//     int j = 0;
+//     while (j < wc)
+//     {
+//             printf("hello world\n");
+
+//         res[j] = parser(str,&i);
+//         j++;
+//     }
+//     printf("%s\n",res[0]);
+//     return (res);
+// }
+// char *parser(const char *str , int *i)
+// {
+//     //int i = 0;
+//     int j = 0;
+//     int index = 0;
+//     char *flags = "csidpuxX#.+- 0123456789%";
+//     char *res = (char *)ft_calloc(ft_strlen(str) + 1, sizeof(char *));
+//     if (res == NULL)
+//         return NULL;
+//     while(str[*i])
+//     {
+//         if (str[*i] == '%')
+//         {
+//             printf("%d\n",*i);
+//             *i++;
+//             while (str[*i])
+//             {
+//                 j = 0;
+//                 while (flags[j])
+//                 {        
+//                     if (str[*i] == flags[j])
+//                     {
+//                         res[index] = str[*i];
+//                                     printf("%d\n",*i);
+
+//                         index++;
+//                         break;
+//                     }
+//                     j++;
+//                 }
+//                 if (flags[j] == '\0')
+//                     break;
+//                 *i++;
+//             }
+//             if (index > 0)
+//             {
+//                 res[index] = '\0';
+//                 return res;
+//             }
+//         }
+//         *i++;
+//     }
+//     free(res);
+//     return NULL;
+// }
+char *parser(const char *str, int *i)
 {
-    char *flags = "csidpuxX#.+- 0123456789%";
-    while (*flags)
+    int start = *i;
+    while (str[*i] && str[*i + 1] != '%')
     {
-        if (c == *flags)
-            return 1;
-        flags++;
+        (*i)++;
     }
-    return 0;
-}
-static int count_words(const char *str)
-{
-    size_t i = 0;
-    int count = 0;
-    while (str[i])
+    (*i)++; // include the last character in the substring
+    char *res = (char *)calloc(*i - start + 1, sizeof(char));
+    if (res == NULL)
     {
-        if (str[i] == '%')
-        {
-            i++;
-            if (check_flags2(str[i]))
-                count++;
-        }
-        i++;
+        return NULL;
     }
-    return count;
+    strncpy(res, str + start, *i - start);
+    return res;
 }
 
-char *set_word(const char *str, char *sep)
-{
-    char *word;
-    int i =0;
-    word = ft_calloc(sizeof(char),);
-    if (!word)
-        return (NULL);
-}
-
-static char **split(const char *str, char *sep)
+static char **split(const char *str)
 {
     char **res;
-    int start = 0
-    int end = 0;
-    int i  = 0;
-    int count_words = count_words(str);
-    res = ft_calloc(sizeof(char *), count_words + 1);
-    if (!res)
-        return (NULL);
-    while (i < count_words)
-    {
-        res[i] = set_word(str,sep);
-        i++;
-    }
-    return (res);
-}
-char *parser(const char *str)
-{
     int i = 0;
-    int j = 0;
-    int index = 0;
-    char *flags = "csidpuxX#.+- 0123456789%";
-    char *res = (char *)ft_calloc(ft_strlen(str) + 1, sizeof(char *));
-    if (res == NULL)
-        return NULL;
-    while(str[i])
+    int wc = count_words(str);
+    res = (char **)calloc(wc + 1, sizeof(char *));
+    if (!res)
     {
+        return NULL;
+    }
+    int j = 0;
+    while (j < wc)
+    {
+        res[j] = parser(str, &i);
+        if (res[j] == NULL)frei
+        {
+            for (int k = 0; k < j; k++)
+            {
+                free(res[k]);
+            }
+            free(res);
+            return NULL;
+        }
         if (str[i] == '%')
         {
-            i++;
-            while (str[i])
-            {
-                j = 0;
-                while (flags[j])
-                {        
-                    if (str[i] == flags[j])
-                    {
-                        res[index] = str[i];
-                        index++;
-                        break;
-                    }
-                    j++;
-                }
-                if (flags[j] == '\0')
-                    break;
-                i++;
-            }
-            if (index > 0)
-            {
-                res[index] = '\0';
-                return res;
-            }
+            i++; // skip '%'
         }
-        i++;
+        j++;
     }
-    free(res);
-    return NULL;
+    return res;
 }
 int main()
 {
-    printf("%d\n", count_words("dyali => %s|| %s%x %d %% %p %s %f" ));
+    char ** str = split("dayali => %.+d %% %d");
+    printf("%s\n",str[0]);
+        printf("%s\n",str[1]);
+
+    printf("%s\n",str[2 ]);
 
 }
 

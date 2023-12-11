@@ -6,11 +6,11 @@
 /*   By: ahanaf <ahanaf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 01:55:05 by ahanaf            #+#    #+#             */
-/*   Updated: 2023/12/09 01:17:09 by ahanaf           ###   ########.fr       */
+/*   Updated: 2023/12/11 09:09:15 by ahanaf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header/libftprintf.h"
+#include "header/printf.h"
 #include "libft/libft.h"
 
 static int ft_hashtag(char *check_x,char *check_X)
@@ -159,7 +159,7 @@ int ft_printf(const char *str, ...)
                     }
                 }
                 i++;
-            }
+            } ptr = ft_split_foramts(str);
         }
         //char *formats = parser(str);
         //if (str[i] == '%')
@@ -175,7 +175,7 @@ int ft_printf(const char *str, ...)
                 // else if (str[i] == '.')
                 // {
                 //     i++;
-                //     int precision = 0;
+                //     int precision = 0; ptr = ft_split_foramts(str);
                 //     while (ft_isdigit(str[i]))
                 //     {
                 //         precision = (precision * 10);
@@ -196,7 +196,7 @@ int ft_printf(const char *str, ...)
                 //     }
                 //     else
                 //       //         i++;          
-        //     }
+        //     } ptr = ft_split_foramts(str);
         // }
         // if(str[i] == '\n')
         //    print_lenght += write(1, "\n", 1);
@@ -209,7 +209,7 @@ int ft_printf(const char *str, ...)
                   //  print_lenght += ft_putstr_fd(va_arg(ap, char *),1);
                 /*else if (str[i] == 'p')
                 {
-                    void *ptr = va_arg(ap, void *);
+                    void *ptr = va_arg ptr = ft_split_foramts(str);(ap, void *);
                     if (ptr)
                         print_lenght += ft_print_address(ptr);
                     print_lenght += ft_putstr_fd("0x0", 1);
