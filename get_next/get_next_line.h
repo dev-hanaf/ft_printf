@@ -1,33 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahanaf <ahanaf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/11 13:39:18 by ahanaf            #+#    #+#             */
-/*   Updated: 2023/12/11 13:55:34 by ahanaf           ###   ########.fr       */
+/*   Created: 2023/12/12 21:05:15 by ahanaf            #+#    #+#             */
+/*   Updated: 2023/12/12 22:24:43 by ahanaf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef GET_NEXT_LINE_H
+#define GET_NEXT_LINE_H
 
-#include <stdarg.h>
+#include <unistd.h>
 #include <stdio.h>
-void count_args(int args, ...)
-{
-    va_list ap;
-    
-    va_start(ap, args);
-    int i = 0;
-    while(va_arg(ap, int))
-    {
-        i++;
-        
-    }
-    printf("%d",i);
-}
+#include <stdlib.h>
+#include <fcntl.h>
 
-int main()
-{
-    count_args(5, 1,2,3,4,5,6,7,8,9);
-}
+#ifndef BUFFER_SIZE
+#define BUFFER_SIZE 2147483647
+#endif
+
+#endif

@@ -6,7 +6,7 @@
 /*   By: ahanaf <ahanaf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 09:18:12 by ahanaf            #+#    #+#             */
-/*   Updated: 2023/12/11 14:02:28 by ahanaf           ###   ########.fr       */
+/*   Updated: 2023/12/12 14:52:21 by ahanaf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int cheack_flags(char c)
         if (str[i] == '%')
         {
             i++;
-            // printf("str[%d] %c count %d\n",i,str[i],count);
             if (cheack_flags(str[i]))
                count++;
         }
@@ -82,44 +81,47 @@ char *set_word(const char *str,int start, int end)
     return (word);
 }
 
-char **ft_split_foramts(const char *str)
+
+t_format_split ft_split_foramts(const char *str)
 {
-    char **ptr;
+    t_format_split result;
     int i = 0;
     int start = 0;
     int end = 0;
     int wc = count_words(str);
-    // printf("wc %d\n",wc);
-    ptr = ft_calloc(sizeof(char *),wc + 1 );
-    if (!ptr)
-        return (NULL);
+    result.arr_start = malloc(sizeof(int) * (wc - 1));
+    result.arr_end = malloc(sizeof(int) * (wc - 1));
+    result.ptr = ft_calloc(sizeof(char *), wc + 1);
+    if (!result.ptr || !result.arr_start || !result.arr_end)
+        return (result);
     while (i < wc)
     {
         lenght_word(str, &start, &end);
-        // printf("\033[0;34mstart %d  end %d\033[0;0m\n",start,end);
+        result.arr_start[i] = start;
+        result.arr_end[i] = end;
         
-        ptr[i] = set_word(str,start, end);
+        //printf("start=>%d end=>%d\n", result.arr_start[i],result.arr_end[i]);
+        result.ptr[i] = set_word(str, start, end);
         i++;
-        
-        
-            
     }
-    return (ptr);
+    return (result);
 }
-// hello %+d. rr %% rr %+0i rr %.0d
+
+//hello %+d. rr %% rr %+0i rr %.0d
 // int main()
 // {
 //     char **str = ft_split_foramts("hello %+d. dd %% rr %+0i rr %.0d");
 //     int i= 0;
     
-//     while(str[i])
-//     {
-//         printf(":%s:\n",str[i]);
-//         i++;
-//     }
-//     printf("hello %+d. dd %% rr %+0i rr %.0d");
+//     // while(str[i])
+//     // {
+//     //     printf(":%s:\n",str[i]);
+//     //     i++;
+//     // }
+//     // printf("hello %+d. dd %% rr %+0i rr %.0d");
 // }
-int main()
-{
-    printf("%%%%%%%+-0d. %0d %s");
-}
+// int main()
+// {
+//     t_format_split split_result = ft_split_foramts("hello %+d. dd %% rr %+0i rr %.0d");
+//     // Now you can use split_result.ptr and split_result.arr_start
+// }

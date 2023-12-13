@@ -6,7 +6,7 @@
 /*   By: ahanaf <ahanaf@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 22:39:44 by ahanaf            #+#    #+#             */
-/*   Updated: 2023/12/11 13:33:43 by ahanaf           ###   ########.fr       */
+/*   Updated: 2023/12/13 02:03:20 by ahanaf           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,14 @@
 #include "libft/libft.h"
 #include <limits.h>
 
-void foramts(va_list ap, char f,char end, int *len)
+void foramts(va_list ap, char f,char *splited, int *len)
 {   
-    //printf("%c\n",end);
-    if ((f == '+' || f == '-' || f == 'd' || f == 'i' ) && ( end == 'd' || end == 'i'))
+    if (f == 'd' || f == 'i' )
     {
-        *len += ft_dicimal(va_arg(ap, int), f);
+        *len += ft_dicimal(va_arg(ap, int), f, splited);
     }
+    else if (f == 'u')
+        *len += ft_unsigned(va_arg(ap ,unsigned int) , f, splited);
     else if(f == 'p')
         *len += ft_adresse(va_arg(ap, void *));
     else if(f == '%')
@@ -33,28 +34,38 @@ int ft_printf(const char *str, ...)
     va_list ap;
     va_start(ap, str);
     int lenght = 0;
-    int i;
-    i  = 0;
-    char **ptr;
+    int i = 0;
+    int index = 0;
+    int start = 0;
     if (str)
-        ptr = ft_split_foramts(str);
-    int x = 0;
-    while(ptr[i])
     {
-        x = 0;
-        while(ptr[i][x])
+        t_format_split res = ft_split_foramts(str);
+        int x = 0;
+        while (str[index])
         {
-            printf("%c",ptr[i][x]);
-            x++;
+            start = 0;
+            if(index +1 >= res.arr_start[0] && index <= res.arr_end[0])
+            {
+                while(res.ptr[i])
+                {
+                    x = 0;
+                    while(res.ptr[i][x])
+                        x++;
+                    int j = 0;
+                    while(res.ptr[i][j])
+                    {
+                        foramts(ap,res.ptr[i][j],res.ptr[i],&lenght);
+                        j++;
+                    }
+                    i++;
+                }
+            }
+            else
+            {
+                lenght += ft_putchar_fd(str[index], 1);    
+            }
+            index++;
         }
-        int j = 0;
-        // while(ptr[i][j])
-        // {
-        //     foramts(ap,ptr[i][j],ptr[i][x-1],&lenght);
-        //     j++;
-        // }
-        printf("\n");
-        i++;
     }
     va_end(ap);
     return (lenght);
@@ -62,6 +73,9 @@ int ft_printf(const char *str, ...)
 
 
 int main()
-{                   
-    ft_printf("hello => %-+Xsd  %+0.d ",-100);
+{                 
+    int n = 100;  
+    ft_printf("hello => %+010u hello\n",n);
+    printf("hello => %+010u hello\n",n);
+
 }
